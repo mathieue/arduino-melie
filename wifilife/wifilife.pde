@@ -1,5 +1,6 @@
 #include <SPI.h>
 #include <WiFly.h>
+#include "WifiConf.h"
 
 #define  PIN_LED_GREEN 2
 #define  PIN_LED_RED   3
@@ -16,7 +17,7 @@ void setup() {
   WiFly.setUart(&Serial);
   WiFly.begin();
 
-  if (!WiFly.join("LABXWIFI")) {
+  if (!WiFly.join(ssid)) {
     digitalWrite(PIN_LED_RED, HIGH);
     while (1) {
       // Hang on failure.
@@ -27,7 +28,7 @@ void setup() {
 }
 
 void ping() {
-  if (client.connect("yourdomain", 2222)) {
+  if (client.connect(remote_host, remote_port)) {
     digitalWrite(PIN_LED_BLUE, HIGH);
     client.print("my local ip is: ");
     client.print(WiFly.ip());
